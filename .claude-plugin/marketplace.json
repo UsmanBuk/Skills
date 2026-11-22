@@ -1,0 +1,12 @@
+{
+  "name": "usmanbuk-skills",
+  "owner": { "name": "Usman Bukhari" },
+  "metadata": { "description": "Agent skills by Usman Bukhari" },
+  "plugins": [
+    {
+      "name": "usmanbuk",
+      "source": "./",
+      "description": "Every skill in the skills/ folder of this repo"
+    }
+  ]
+}
