@@ -11,4 +11,6 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v10.4.0
+        with:
+          enable-cache: false
       - run: scripts/validate.sh
