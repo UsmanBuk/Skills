@@ -4,7 +4,27 @@ Agent skills I write and use in Claude Code, Codex CLI and any other agent that
 reads `skills/<name>/SKILL.md`. Each skill follows the
 [Agent Skills spec](https://agentskills.io/specification).
 
-There are no skills here yet.
+## Skills
+
+- [`leader`](skills/leader/SKILL.md): lead other agent sessions from one chat. When
+  to hand work off, how to brief a worker, how to watch it and how to verify its
+  result. Includes a Claude Code start-up hook that tells a chat it is the leader.
+
+### Leader start-up hook
+
+`skills/leader/scripts/session-start.sh` is a Claude Code SessionStart hook that tells
+an interactive chat it is the leader, so you don't have to type `/leader`. Register it
+in `~/.claude/settings.json`, with the path your install method gave the skill:
+
+```json
+{ "hooks": { "SessionStart": [ { "hooks": [
+  { "type": "command", "command": "bash ~/.claude/skills/leader/scripts/session-start.sh" }
+] } ] } }
+```
+
+Add part of a model id as an argument (`session-start.sh opus`) and only chats on that
+model lead. Start a worker with `LEADER_ROLE=worker` in its environment and the hook
+stays quiet for it. Headless runs (`claude -p`) never get the note.
 
 ## Install
 
