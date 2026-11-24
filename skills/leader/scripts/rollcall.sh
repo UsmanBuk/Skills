@@ -10,6 +10,7 @@
 #   @leads <project dir>  on the leader
 #   @worker_of <leader>   and  @worker_no <n>  on each worker
 # A session that leads, or that works for another live leader, is left alone.
+# So is one the user excluded:  tmux set-option -t '=<session>:' @rollcall_skip 1
 set -euo pipefail
 
 [[ -n ${TMUX_PANE:-} ]] || { echo "rollcall: run this inside the leader's tmux pane" >&2; exit 1; }
@@ -19,12 +20,14 @@ root=$(git rev-parse --show-toplevel 2>/dev/null || pwd -P)
 
 declare -A number=() note=()
 sessions=() taken=" "
-while IFS='|' read -r s path pid leads worker_of worker_no; do
+while IFS='|' read -r s path pid leads worker_of worker_no skip; do
   [[ $s == "$me" || -n ${note[$s]:-} ]] && continue
   [[ $path == "$root" || $path == "$root"/* ]] || continue
   sessions+=("$s")
   if ! pgrep -P "$pid" > /dev/null; then
     note[$s]="skipped: a bare shell, no agent running"
+  elif [[ -n $skip ]]; then
+    note[$s]="skipped: excluded by the user"
   elif [[ -n $leads ]]; then
     note[$s]="skipped: it leads its own roll call"
   elif [[ -n $worker_of && $worker_of != "$me" ]] && tmux has-session -t "=$worker_of" 2> /dev/null; then
@@ -34,7 +37,7 @@ while IFS='|' read -r s path pid leads worker_of worker_no; do
   else
     note[$s]="new"
   fi
-done < <(tmux list-panes -a -F '#{session_name}|#{pane_current_path}|#{pane_pid}|#{@leads}|#{@worker_of}|#{@worker_no}')
+done < <(tmux list-panes -a -F '#{session_name}|#{pane_current_path}|#{pane_pid}|#{@leads}|#{@worker_of}|#{@worker_no}|#{@rollcall_skip}')
 
 n=1
 for s in "${sessions[@]}"; do
