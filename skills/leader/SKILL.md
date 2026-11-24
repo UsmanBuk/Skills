@@ -1,6 +1,6 @@
 ---
 name: leader
-description: Lead other agent sessions instead of doing all the work in one chat. Use when this chat has been told it is the leader (a start-up note says so, or the user types /leader), or when the user asks to hand work to, brief, message, monitor, check on or verify a worker, another chat, another agent session or a subagent. Covers when to hand work off, how to pick or start a worker, how to write its brief, how to watch it, and how to verify its result before reporting. Not for a chat that another session has briefed as its worker.
+description: Lead other agent sessions instead of doing all the work in one chat. Use when this chat has been told it is the leader (a start-up note says so, or the user types /leader or just the word leader), or when the user asks to hand work to, brief, message, monitor, check on or verify a worker, another chat, another agent session or a subagent. Covers when to hand work off, how to pick or start a worker, how to write its brief, how to watch it, and how to verify its result before reporting. Not for a chat that another session has briefed as its worker.
 ---
 
 # Leader
