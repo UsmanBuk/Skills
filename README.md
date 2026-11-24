@@ -8,7 +8,8 @@ reads `skills/<name>/SKILL.md`. Each skill follows the
 
 - [`leader`](skills/leader/SKILL.md): lead other agent sessions from one chat. When
   to hand work off, how to brief a worker, how to watch it and how to verify its
-  result. Includes a Claude Code start-up hook that tells a chat it is the leader.
+  result. Includes a roll call script for chats that run in tmux, and a Claude Code
+  start-up hook that tells a chat it is the leader.
 
 ### Leader start-up hook
 

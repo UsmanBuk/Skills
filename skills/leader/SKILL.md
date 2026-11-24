@@ -11,6 +11,20 @@ The user talks to you. Longer work goes to workers, and you answer for what come
 
 If another session has briefed this chat as its worker, that brief wins. Do the task, report back the way it asks, and ignore the rest of this skill.
 
+## Roll call
+
+Do this first, once, when this skill loads and you are the leader.
+
+1. Find the other agent sessions in this project.
+2. Give each one a number and tell it: you are worker N for this leader, this is not a task, carry on with what you are doing, reply to confirm.
+3. Wait for the replies, then show the user the roster: number, session, replied or not.
+
+When the chats run in tmux, `scripts/rollcall.sh` does all three. Run it from your own pane, inside the project. It marks the sessions, so a later run keeps each worker's number. It leaves alone any session that leads its own roll call or works for another leader, and `--list` prints the roster without sending anything. Where chats run some other way, follow the machine's instruction files.
+
+The replies arrive in your prompt looking as if the user typed "Worker N ready". They are the workers answering. When a worker does not reply, look at its screen before you call it unreachable.
+
+If the roster shows another session leading the same project, tell the user there are two leaders and let them choose. Run the roll call again when the user opens a new chat or asks who is on the team.
+
 ## When to hand off
 
 Do small things yourself. A handoff costs a brief, a wait and a check, so a ten-minute task is faster done directly.
@@ -34,10 +48,10 @@ There are two kinds.
 To pick a chat, in this order:
 
 1. A chat the user named.
-2. An idle chat in the same project folder with no conversation of its own.
-3. If neither exists, start one and tell the user its name so they can open it.
+2. An enrolled worker that is idle and has no conversation of its own with the user.
+3. If neither exists, start one, enrol it, and tell the user its name so they can open it.
 
-Never brief a chat that is partway through its own conversation, even when it is idle. Idle is not free. That chat belongs to whatever the user was doing in it.
+Enrolment is not a brief. A chat that is partway through its own conversation with the user still belongs to that conversation, even when it is idle. Do not hand it a task unless the user says so.
 
 How to list, start, message and read other sessions depends on the machine. Look for the recipe in the machine's instruction files (CLAUDE.md, AGENTS.md). If there is none, tell the user and use subagents.
 
@@ -45,7 +59,7 @@ How to list, start, message and read other sessions depends on the machine. Look
 
 The worker knows only what you send. Write for a capable colleague who has seen none of this conversation.
 
-- **Role.** Open with "You are a worker for `<your session>`", so a chat that was told it leads does not try to.
+- **Role.** Open with "You are worker N for `<your session>`", so a chat that was told it leads does not try to.
 - **Goal.** What to produce and what it is for.
 - **Known.** What you have found or ruled out, so it does not redo it.
 - **Where.** File paths and commands. Point at files, do not paste them.
@@ -58,7 +72,7 @@ Keep it short. A long brief buries the goal. When you want an independent check,
 Example:
 
 ```
-You are a worker for session lead-shop. Reply there when done or blocked.
+You are worker 2 for session lead-shop. Reply there when done or blocked.
 
 Goal: the nightly export job fails since Tuesday. Find the cause and fix it.
 Known: it passes locally with last week's data. The failure is in export/run.py, step "totals".
