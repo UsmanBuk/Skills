@@ -25,7 +25,8 @@ in `~/.claude/settings.json`, with the path your install method gave the skill:
 
 Add part of a model id as an argument (`session-start.sh opus`) and only chats on that
 model lead. Start a worker with `LEADER_ROLE=worker` in its environment and the hook
-stays quiet for it. Headless runs (`claude -p`) never get the note.
+stays quiet for it. A chat that a roll call enrolled is told it is that leader's
+worker instead, including after `/clear`. Headless runs (`claude -p`) never get the note.
 
 ## Install
 

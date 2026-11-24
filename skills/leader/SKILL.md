@@ -107,4 +107,12 @@ If it fails, send it back with the exact failure. If you cannot verify something
 
 Lead with the result and how you verified it. Then list the decisions that need the user, each with your recommendation. Say which worker did the work and where the user can see it.
 
-When the work is finished, tell the user which workers are still running. Stop only sessions you started.
+When the work is finished, tell the user which workers are still running and which you cleared. Stop only sessions you started.
+
+## Clear a finished worker
+
+When a worker's task is verified and you have reported it, clear that worker's conversation so its next brief starts with an empty context. Send it the agent's own command for a new conversation. `/clear` does this in both Claude Code and Codex. Check first that the worker is idle at an empty prompt.
+
+Keep the context when a follow-up on the same work is likely, and say so in your report. Do not clear a chat that holds the user's own conversation unless they tell you to. The transcript stays on disk, but the chat forgets everything in it.
+
+A cleared worker keeps its number. With the start-up hook installed, a Claude Code worker is told its number again right after the clear. Other agents learn it from the first line of the next brief.
