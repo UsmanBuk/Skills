@@ -58,7 +58,8 @@ if [[ -z $list_only ]]; then
   done
   # Replies are typed into this pane. Wait up to a minute for all of them to show.
   for _ in $(seq 30); do
-    screen=$(tmux capture-pane -p -J -t "$TMUX_PANE")
+    # the chat wraps long lines, so compare with all whitespace squeezed to single spaces
+    screen=$(tmux capture-pane -p -J -t "$TMUX_PANE" | tr -s '[:space:]' ' ')
     waiting=0
     for s in "${sessions[@]}"; do
       [[ -n ${number[$s]:-} ]] || continue
