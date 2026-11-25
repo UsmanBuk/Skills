@@ -1,0 +1,4 @@
+interface:
+  display_name: "Isolated Worktree + DB"
+  short_description: "Create safe worktrees with isolated databases"
+  default_prompt: "Use $isolated-worktree-db to create a clean Git worktree with its own local database for this experiment."
